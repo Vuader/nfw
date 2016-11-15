@@ -1,0 +1,7 @@
+mysqlclient
+bcrypt
+passlib
+pycurl
+jinja2
+pyyaml
+redis

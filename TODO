@@ -1,0 +1,2 @@
+nfw.redirect
+nfw.open('method','uri','post') new page

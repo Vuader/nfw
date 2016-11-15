@@ -1,0 +1,3 @@
+include License
+recursive-include nfw/resources *
+recursive-include docs *
