@@ -13,7 +13,7 @@ Create a folder named after your project and use neutrino.py to setup clean init
 .. code:: bash
 
     $ mkdir project
-    $ neutrion.py -c .
+    $ neutrino.py -c project
 
 The following structure will be created:
 

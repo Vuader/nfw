@@ -134,10 +134,11 @@ class Wsgi(object):
             description = repr(e)
 
         if resp.headers.get('Content-Type') == nfw.TEXT_PLAIN:
+            resp.clear()
             if title is not None:
-                resp.body = "%s\n" % (title,)
+                resp.write("%s\n" % (title,))
             if description is not None:
-                resp.body += "%s" % (description,)
+                resp.write("%s" % (description,))
         elif resp.headers.get('Content-Type') == nfw.TEXT_HTML:
             t = self._error_template(code)
             if t is not None:

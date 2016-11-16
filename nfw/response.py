@@ -60,6 +60,7 @@ class Response(object):
         if name in self._attributes:
             super(Response, self).__setattr__(name, value)
         elif name == 'body':
+            self.clear()
             super(Response, self).__setattr__('content_length', len(value))
             super(Response, self).__setattr__('_io', StringIO())
             self.write(value)
@@ -77,6 +78,9 @@ class Response(object):
         super(Response, self).__setattr__('content_length',
                                           len(data)+self.content_length)
         self._io.write(data)
+
+    def clear(self):
+        super(Response, self).__setattr__('_io', StringIO())
 
     def __iter__(self):
         self._io.seek(0)
