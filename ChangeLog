@@ -1,0 +1,11 @@
+commit 7accd3cbb9a1c1ff798c0498c5fcb2d12776c163 (HEAD -> master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Wed Nov 16 09:08:44 2016 +0200
+
+    Fixed App Error Response and Documentation
+
+commit fde82d0e39c8a1c6b44a89f83fbea425d0c11936 (tag: 0.0.0, origin/master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Tue Nov 15 17:36:31 2016 +0200
+
+    first commit
