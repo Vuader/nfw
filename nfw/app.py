@@ -224,7 +224,7 @@ class Wsgi(object):
                                     context=req.context,
                                     session=req.session,
                                     kwargs=obj_kwargs,
-                                    qwargs=req.get)
+                                    qwargs=req.query)
                 req.policy = policy
 
             for m in self.middleware:

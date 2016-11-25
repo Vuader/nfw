@@ -80,8 +80,8 @@ class Request(object):
         self._read_field = False
         self._read_file = False
         self._post = None
-        get = urlparse.parse_qs(self.environ['QUERY_STRING'])
-        super(Request, self).__setattr__('get', get)
+        query = urlparse.parse_qs(self.environ['QUERY_STRING'])
+        super(Request, self).__setattr__('query', query)
 
     def __setattr__(self, name, value):
         if name == 'method':

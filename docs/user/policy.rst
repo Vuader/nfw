@@ -28,7 +28,7 @@ The policy rule determines under which circumstances the requests is permitted. 
  context (req.context) Temporary context data.
  session (req.session) Session data.
  kwargs URI Template variables
- qwargs (req.get) Query Strings in URI Request Data
+ qwargs (req.query) Query Strings in URI Request Data
 
 All of the above are dictionaries, but accessible in object notiation. For example:
 

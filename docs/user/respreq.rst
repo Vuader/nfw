@@ -12,7 +12,7 @@ The request object behaves like a IO file/object. You can use **.read()** and **
 
 **.content_length** The length of the request body.
 
-**.get** Dictionary like object of urlparse.parse_qs(). It contains the url query string values. Example .get['id']
+**.query** Dictionary like object of *urlparse.parse_qs()*. It contains the url query string values. Example *.query.get('id') / .query['id']*
 
 **.headers** Dictionary like object that contains the request headers.
 
