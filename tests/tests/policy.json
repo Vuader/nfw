@@ -1,0 +1,17 @@
+{
+    "rule_true": "true",
+    "rule_false": "false",
+    "test:true": "true",
+    "test:false": "false",
+    "test:basic_true": "true:true",
+    "test:basic_false": "false:true",
+    "test:basic_true_or": "true:false or false:false",
+    "test:basic_true_and": "true:true and false:false",
+    "test:advanced_true1": "(true:false and false:false) or (true:true)",
+    "test:advanced_true2": "(true:true and false:false) or (true:true)",
+    "test:advanced_false1": "(true:false and false:false) or (false:true)",
+    "test:advanced_false2": "(true:false or false:false) and (true:false)",
+    "test:var_true": "$context.true:True",
+    "test:var_false": "$context.false:True",
+    "test:var_string": "$context.string:testing"
+}
