@@ -88,11 +88,11 @@ class Request(object):
             super(Request, self).__setattr__(name, value.upper())
         elif name[0] == '_':
             super(Request, self).__setattr__(name, value)
+        elif name == 'args' or name == 'view' or name == 'policy':
+            super(Request, self).__setattr__(name, value)
         elif hasattr(self, name):
             raise AttributeError("'request' object can't rebind" +
                                  " attribute '%s'" % (name,))
-        elif name == 'args' or name == 'view' or name == 'policy':
-            super(Request, self).__setattr__(name, value)
         else:
             raise AttributeError("'request' object can't bind" +
                                  " attribute '%s'" % (name,))
@@ -269,3 +269,9 @@ class Post(object):
 
     def __iter__(self):
         return iter(self._cgi)
+
+    def get(self, k, d=None):
+        if k in self._cgi:
+            return self._cgi[k].value
+        else:
+            return d

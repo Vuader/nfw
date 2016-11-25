@@ -38,7 +38,6 @@ import logging
 from collections import OrderedDict
 from collections import Iterator
 from copy import copy
-from copy import deepcopy
 from datetime import datetime
 import json
 import uuid
@@ -54,7 +53,7 @@ def _declared_fields(cls):
     for name in dir(cls):
         prop = getattr(cls, name)
         if isinstance(prop, Field):
-            prop = deepcopy(prop)
+            prop = copy(prop)
             current_fields.append((name, prop))
             prop._name = name
 
@@ -67,13 +66,13 @@ class FieldChecks(object):
         if (self.max_length is not None and
                 self.max_length != 0 and
                 len(value) > self.max_length):
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'exceeded maximum length',
                                       self.max_length)
 
         if len(value) < self.min_length:
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'less than required length',
                                       self.min_length)
@@ -81,42 +80,42 @@ class FieldChecks(object):
     def size(self, value):
         if (self.maximum is not None and
                 value > self.maximum):
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'exceeded maximum value',
                                       self.maximum)
 
         if (self.minimum is not None and
                 value < self.minimum):
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'less than minimum value',
                                       self.minimum)
 
     def is_string(self, value):
         if not isinstance(value, basestring):
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'invalid string value',
                                       value)
 
     def is_integer(self, value):
         if not isinstance(value, (int, long)):
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'invalid integer value',
                                       value)
 
     def is_number(self, value):
         if not isinstance(value, (int, long, float)):
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'invalid number value',
                                       value)
 
     def is_bool(self, value):
         if not isinstance(value, (int, long, float, bool)):
-            raise nfw.ModelFieldError(self._name,
+            raise nfw.FieldError(self._name,
                                       self.label,
                                       'invalid boolean value',
                                       value)
@@ -189,11 +188,13 @@ class Mysql(object):
 
         insert = []
         sql_str_values = []
-        for field in data:
-            fields.append(field)
-            values.append(data[field])
-            insert.append("%s" % (field))
-            sql_str_values.append("%s" % ('%s'))
+        for declared_field in self.declared_fields:
+            if declared_field in data:
+                field = declared_field
+                fields.append(field)
+                values.append(data[field])
+                insert.append("%s" % (field))
+                sql_str_values.append("%s" % ('%s'))
 
         insert = ",".join(insert)
         sql_str_values = ",".join(sql_str_values)
@@ -210,10 +211,12 @@ class Mysql(object):
         values = []
         update = []
         sql_str_values = []
-        for field in data:
-            fields.append(field)
-            values.append(data[field])
-            update.append("%s=%s" % (field, "%s"))
+        for declared_field in self.declared_fields:
+            if declared_field in data:
+                field = declared_field
+                fields.append(field)
+                values.append(data[field])
+                update.append("%s=%s" % (field, "%s"))
         values.append(id)
 
         update = ",".join(update)
@@ -236,16 +239,16 @@ class Mysql(object):
 
 
 class Field(ObjectName):
-    def __init__(self, value=None, pri_id=None, db=None, **kwargs):
+    def __init__(self, value=None, id=None, db=None, **kwargs):
         self.creation_counter = nfw.creation_counter()
         self._declared_fields = _declared_fields(self)
-        self._id = pri_id
+
+        self._id = id
         self._name = None
         self._data = None
         self._model = self.__class__.__name__
         self._table = self._model
         self._dbo = db
-        self._updated = False
 
         self._parent = None
         self._parent_key = None
@@ -300,8 +303,12 @@ class Field(ObjectName):
                              self._declared_fields)
             if hasattr(self.Meta, 'db_primary_key'):
                 self._db_primary_key = self.Meta.db_primary_key
+                if self._db_primary_key not in self._declared_fields:
+                    self._declared_fields[self._db_primary_key] = nfw.Model.Integer(hidden=True)
             else:
                 self._db_primary_key = 'id'
+                if self._db_primary_key not in self._declared_fields:
+                    self._declared_fields[self._db_primary_key] = nfw.Model.Integer(hidden=True)
 
     def _val(self, value):
         if hasattr(self, '_validate'):
@@ -310,7 +317,7 @@ class Field(ObjectName):
 
     def _get_field(self, field):
         if field in self._declared_fields:
-            field = deepcopy(self._declared_fields[field])
+            field = copy(self._declared_fields[field])
             return field
         else:
             raise nfw.FieldDoesNotExist(field)
@@ -359,9 +366,7 @@ class Field(ObjectName):
 
     def commit(self):
         if hasattr(self, '_db'):
-            if self._updated is True:
-                self._db.commit()
-                self._updated = False
+            self._db.commit()
 
     def rollback(self):
         if hasattr(self, '_db'):
@@ -381,7 +386,7 @@ class Fields(object):
 
         def __delitem__(self, key):
             if hasattr(self._data[key], '__del__'):
-                self._data[key].__del__()
+                self._data[key].delete()
             del self._data[key]
 
         def __iter__(self):
@@ -393,6 +398,8 @@ class Fields(object):
             if hasattr(self, 'Meta'):
                 new._table = self._table
                 new.Meta = self.Meta
+            if self._dbo is not None:
+                new._dbo = self._dbo
                 new._init_db()
             new._set(v, _load)
             self._data.append(new)
@@ -448,24 +455,23 @@ class Fields(object):
                             self._data[i]._set(val)
                     if hasattr(self, '_db') and _load is False:
                         if len(updates) > 0:
-                            self._updated = True
                             if self._db_primary_key in self._data:
-                                pri_id = self._data[self._db_primary_key]
-                                if len(self._db.select(id=pri_id)) > 0:
-                                        self._db.update(updates, pri_id)
+                                id = self._data[self._db_primary_key].value()
+                                if len(self._db.select(id=id)) > 0:
+                                        self._db.update(updates, id)
                                 else:
-                                    pri_id = self._db.insert(updates)
-                                    updates[self._db_primary_key] = pri_id
+                                    id = self._db.insert(updates)
+                                    updates[self._db_primary_key] = id
                                     if self.foreign_key in updates:
                                         self._parent_key_value = updates[self.foreign_key]
                                         self._parent._set({self._parent_key: self._parent_key_value})
-                                        self._data[self._db_primary_key] = pri_id
+                                        self._data[self._db_primary_key] = id
                             else:
                                 self._data[self._db_primary_key] = self._get_field(self._db_primary_key)
-                                pri_id = self._db.insert(updates)
-                                updates[self._db_primary_key] = pri_id
-                                self._data[self._db_primary_key]._set(pri_id)
-                                self._id = pri_id
+                                id = self._db.insert(updates)
+                                updates[self._db_primary_key] = id
+                                self._data[self._db_primary_key]._set(id)
+                                self._id = id
                                 if self.foreign_key in updates:
                                     self._parent_key_value = updates[self.foreign_key]
                                     self._parent._set({self._parent_key: self._parent_key_value})
@@ -488,6 +494,7 @@ class Fields(object):
                 return self._data[key]
 
         def __delitem__(self, key):
+            self._db.update({key:None}, self._id)
             if hasattr(self._data[key], '__del__'):
                 self._data[key].__del__()
             else:
@@ -499,8 +506,8 @@ class Fields(object):
         def delete(self):
             if self.foreign_key is None:
                 if self._db_primary_key in self._data:
-                    pri_id = self._data[self._db_primary_key]
-                    self._db.delete(pri_id)
+                    id = self._data[self._db_primary_key].value()
+                    self._db.delete(id)
             else:
                 if self._parent_key in self._parent:
                     self._parent[self._parent_key] = None

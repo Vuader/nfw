@@ -48,14 +48,18 @@ log = logging.getLogger(__name__)
 
 
 class SessionBase(object):
-    def __init__(self, expire=3600):
+    def __init__(self, expire=3600, path=None):
         self._name = None
         self._expire = expire
         self._id = None
+        if path is None:
+            self._path = 'tmp/'
+        else:
+            path = path.rstrip('/')
+            self._path = "%s/" % (path,)
 
-    def setup(self, environ, start_response):
+    def setup(self, environ):
         self.environ = environ
-        self.start_response = start_response
 
         cookie = SimpleCookie()
         name = nfw.utils.if_unicode_to_utf8('neutrino')
@@ -115,22 +119,22 @@ class SessionRedis(SessionBase):
 
 class SessionFile(SessionBase):
     def _load(self):
-        if os.path.isfile("tmp/%s.session" % (self._id,)):
+        if os.path.isfile("%s%s.session" % (self._path, self._id,)):
             ts = int(time.mktime(datetime.datetime.now().timetuple()))
-            stat = os.stat("tmp/%s.session" % (self._id))
+            stat = os.stat("%s%s.session" % (self._path, self._id))
             lm = int(stat.st_mtime)
             if ts - lm > self._expire:
                 self._session = {}
 
         if not hasattr(self, '_session'):
-            if os.path.isfile("tmp/%s.session" % (self._id,)):
-                with open("tmp/%s.session" % (self._id,), 'rb') as handle:
+            if os.path.isfile("%s%s.session" % (self._path, self._id,)):
+                with open("%s%s.session" % (self._path, self._id,), 'rb') as handle:
                     self._session = pickle.load(handle)
             else:
                 self._session = {}
 
     def _save(self):
-        with open("tmp/%s.session" % (self._id,), 'wb') as handle:
+        with open("%s%s.session" % (self._path, self._id,), 'wb') as handle:
             pickle.dump(self._session, handle)
 
     def __setitem__(self, key, value):

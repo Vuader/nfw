@@ -187,8 +187,8 @@ class Wsgi(object):
         if 'redis' in self.config:
             session = nfw.SessionRedis(session_expire)
         else:
-            session = nfw.SessionFile(session_expire)
-        session_cookie = session.setup(environ, start_response)
+            session = nfw.SessionFile(session_expire, 'tmp/')
+        session_cookie = session.setup(environ)
 
         mysql_config = self.config.get('mysql', None)
         if mysql_config is not None:

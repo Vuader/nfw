@@ -129,7 +129,7 @@ class Policy(object):
         lv = False
         op = None
         for t in self._tokenize(rule):
-            if ':' in t or t == "True" or t == "False":
+            if ':' in t or t.lower() == "true" or t.lower() == "false":
                 if op is None:
                     lv = self._cmp(t)
                 else:

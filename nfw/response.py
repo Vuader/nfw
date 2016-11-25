@@ -68,8 +68,11 @@ class Response(object):
             AttributeError("'response' object can't bind" +
                            " attribute '%s'" % (name,))
 
+    def seek(self,position):
+        self._io.seek(position)
+
     def read(self, size=io.DEFAULT_BUFFER_SIZE):
-        return self._io(size)
+        return self._io.read(size)
 
     def readline(self, size=io.DEFAULT_BUFFER_SIZE):
         return self._io.readline(size)

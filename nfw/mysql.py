@@ -144,9 +144,7 @@ class Mysql(object):
     def execute(self, query=None, params=None):
         cursor = self._thread[self.thread_id][self.name]['cursor']
         result = execute(cursor, query, params)
-        if len(query) > 6:
-            if query[0:6].lower() != "select":
-                self._thread[self.thread_id][self.name]['uncommited'] = True
+        self._thread[self.thread_id][self.name]['uncommited'] = True
         return result
 
     def commit(self):
@@ -255,3 +253,59 @@ def rollback(db):
                    db.get_host_info(),
                    db.thread_id,
                    timer))
+
+class Testing():
+    def __init__(self, queries):
+        self.queries = queries
+        self.execute_count = 0
+        self._last_row_id = None
+        self._last_row_count = None
+
+    def last_row_id(self):
+        return self._last_row_id
+
+    def last_row_count(self):
+        return self._last_row_count
+
+    def _query(self):
+        if len(self.queries) > self.execute_count:
+            q = self.queries[self.execute_count]
+            if isinstance(q, dict):
+                self.execute_count = self.execute_count + 1
+                return q
+            else:
+                raise Exception("Expected dictionary")
+        else:
+            return {}
+
+    def commit(self):
+        if len(self.queries) != self.execute_count:
+            raise Exception("Not all test sql queries executed")
+
+    def rollback(self):
+        pass
+
+    def execute(self, query, values=None):
+        q = self._query()
+        if query != q.get('query'):
+            raise Exception("Query not matched %s == %s" % (query, q.get('query')))
+        if q.get('values') is not None:
+            if values is not None:
+                if (isinstance(q.get('values'), list) or
+                        isinstance(q.get('values'), tuple) and
+                        (isinstance(values, list) or
+                            isinstance(values, tuple))):
+                    if len(values) == len(q.get('values')):
+                        for (i, v) in enumerate(q.get('values')):
+                            if values[i] != v:
+                                raise Exception("Values not matched %s == %s" % (values[i],v))
+                        self._last_row_count = q.get('last_row_count')
+                        self._last_row_id = q.get('last_row_id')
+                    else:
+                        raise Exception("Values not matched")
+                else:
+                    raise Exception("Values not matched")
+            else:
+                raise Exception("Values not matched")
+
+        return q.get('result', [])

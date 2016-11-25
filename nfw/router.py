@@ -99,8 +99,6 @@ class Router(object):
 
         route = route.strip('/')
         if self._match(method, route) is None:
-            if name is not None:
-                name = name.lower()
             r = []
             r.append(method)
             r.append(route)
