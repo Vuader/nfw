@@ -70,6 +70,7 @@ try:
         elif len(version_git.split('-')) > 1:
             version = version_git.split('-')[0]
             commit = version_git.split('-')[1]
+            commit = int(commit) + 1
             version_git = "%s.dev%s" % (version, commit,)
         fh.write(version_msg +
                  os.linesep +
