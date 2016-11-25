@@ -1,4 +1,16 @@
-commit 3c8a819347c55ad263a462b96ae7c7e77c2b8995 (HEAD -> master)
+commit 3dfe8f2a4849ca867788fd16eafa683836a6e94d (HEAD -> master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 14:00:22 2016 +0200
+
+    Renamed request property .get to be .query
+
+commit 79ff8c02d71e10972ff0e89158bbd9b99f1f3aac (origin/master)
+Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 13:18:46 2016 +0200
+
+    Updated ChangeLog + Versioning
+
+commit 3c8a819347c55ad263a462b96ae7c7e77c2b8995
 Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
 Date:   Fri Nov 25 13:17:41 2016 +0200
 
@@ -28,7 +40,7 @@ Date:   Fri Nov 25 13:15:01 2016 +0200
 
     Updated Version to increment prior to commit
 
-commit 0e1be2e1e66c96279db055dbaa4993f6c6caf11d (origin/master)
+commit 0e1be2e1e66c96279db055dbaa4993f6c6caf11d
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Wed Nov 16 09:10:48 2016 +0200
 
