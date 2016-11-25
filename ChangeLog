@@ -1,10 +1,46 @@
-commit 7accd3cbb9a1c1ff798c0498c5fcb2d12776c163 (HEAD -> master)
+commit 3c8a819347c55ad263a462b96ae7c7e77c2b8995 (HEAD -> master)
+Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 13:17:41 2016 +0200
+
+    Numerous bug fixes
+
+commit b0901f509077eea821d8449aacc563f0b04d3dfa
+Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 13:17:10 2016 +0200
+
+    Added additional unit testing
+
+commit 8fd2baece8f30e7af40c602d0fafaf0ec5ec3247
+Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 13:16:36 2016 +0200
+
+    Added Response/Request Object Doc
+
+commit 81e6b6937468823a44e0d9f3535e5dfb254c4f78
+Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 13:15:59 2016 +0200
+
+    Updated Documentation still pre-alpha
+
+commit 3d76b951dacb8f9640735d3769eee009d2cea7cb
+Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 13:15:01 2016 +0200
+
+    Updated Version to increment prior to commit
+
+commit 0e1be2e1e66c96279db055dbaa4993f6c6caf11d (origin/master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Wed Nov 16 09:10:48 2016 +0200
+
+    Updated Changelog + Versioning
+
+commit 7accd3cbb9a1c1ff798c0498c5fcb2d12776c163
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Wed Nov 16 09:08:44 2016 +0200
 
     Fixed App Error Response and Documentation
 
-commit fde82d0e39c8a1c6b44a89f83fbea425d0c11936 (tag: 0.0.0, origin/master)
+commit fde82d0e39c8a1c6b44a89f83fbea425d0c11936 (tag: 0.0.0)
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Tue Nov 15 17:36:31 2016 +0200
 
