@@ -241,5 +241,5 @@ RestAPI by example
 
 Restarting
 ==========
-When you have updated your application its neccesary to gracefully restart the web server. Otherwise you will still be running the old application and not see any of the updates.
+When you have updated your application its neccesary to gracefully restart the web server. Otherwise you will still be running the old application and not see any of the updates take affect.
 

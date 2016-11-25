@@ -7,6 +7,7 @@ User Guide
    intro
    install
    quickstart
+   respreq
    templating
    policy
    model

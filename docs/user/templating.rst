@@ -28,8 +28,8 @@ To render the loaded template with some variables, just call the render() method
 
     resp.body = t.render(the='variables', go='here')
 
-Important snippet from Jinja documentaiton
-------------------------------------------
+Unicode only
+------------
 
 Jinja2 is using Unicode internally which means that you have to pass Unicode objects to the render function or bytestrings that only consist of ASCII characters. Additionally newlines are normalized to one end of line sequence which is per default UNIX style (\n).
 
