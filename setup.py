@@ -33,7 +33,12 @@
 import os
 import subprocess
 
-from setuptools import setup
+try:
+    from setuptools import setup
+except Exception as e:
+    print("Requires 'setuptools'")
+    print(" pip install setuptools")
+    exit()
 
 try:
     import project

@@ -32,6 +32,8 @@ config = (os.path.abspath(os.path.join(
                           '../settings.yaml')))
 os.environ['NEUTRINO_CONFIG'] = str(config)
 
+os.environ['PYTHON_EGG_CACHE'] = "%s/tmp/.cache/Python-Eggs" % (app_root)
+
 # Initialize WSGI Object
 import nfw
 nfw_wsgi = nfw.Wsgi()

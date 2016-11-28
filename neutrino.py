@@ -134,7 +134,10 @@ def setup(args):
     _create_dir(path, '/templates')
     static(args)
     _create_dir(path, '/tmp')
-    print "\nPlease ensure %s/tmp is writeable by Web Server User\n" % (path,)
+    _create_dir(path, '/tmp/.cache')
+    _create_dir(path, '/tmp/.cache/Python-Eggs')
+    print "\nPlease ensure %s/tmp and sub-directories" % (path,) \
+          + " is writeable by Web Server User\n"
 
 
 def server(args):
@@ -175,7 +178,9 @@ def create(args):
         _create_dir(path, '/myproject/static/myproject')
         _create_dir(path, '/myproject/templates')
         _create_dir(path, '/tmp')
-        print "\nPlease ensure %s/tmp" % (path,) \
+        _create_dir(path, '/tmp/.cache')
+        _create_dir(path, '/tmp/.cache/Python-Eggs')
+        print "\nPlease ensure %s/tmp and sub-directories" % (path,) \
               + " is writeable by Web Server User\n"
     else:
         print("Invalid path")
