@@ -1,10 +1,28 @@
-commit 3dfe8f2a4849ca867788fd16eafa683836a6e94d (HEAD -> master)
+commit 91c2395bfcb454f8e8b293a91a728e5583a8da84 (HEAD -> master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Mon Nov 28 13:37:39 2016 +0200
+
+    Set default Egg Cache to Project tmp directory
+
+commit 372756ed944a93efce8562206e079f3fd80a799e
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Mon Nov 28 13:36:13 2016 +0200
+
+    Added additional documentation
+
+commit ac785fdd31a669ee29ccd5a1492983cea52a3a99 (origin/master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Fri Nov 25 14:02:15 2016 +0200
+
+    Updated Changelog + Version
+
+commit 3dfe8f2a4849ca867788fd16eafa683836a6e94d
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Fri Nov 25 14:00:22 2016 +0200
 
     Renamed request property .get to be .query
 
-commit 79ff8c02d71e10972ff0e89158bbd9b99f1f3aac (origin/master)
+commit 79ff8c02d71e10972ff0e89158bbd9b99f1f3aac
 Author: Christiaan Frans Rademan <christiaan.rademan@gmail.com>
 Date:   Fri Nov 25 13:18:46 2016 +0200
 
