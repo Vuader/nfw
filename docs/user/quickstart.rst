@@ -72,8 +72,8 @@ Example of virtualhost::
         </Directory>
 
         WSGIScriptAlias / /var/www/project/wsgi/app.wsgi
-        WSGIDaemonProcess blog user=www-data group=www-data processes=3 threads=10
-        WSGIProcessGroup blog
+        WSGIDaemonProcess myproject user=www-data group=www-data processes=3 threads=10
+        WSGIProcessGroup myproject
     </VirtualHost>
 
 WebApp by example
@@ -221,7 +221,7 @@ RestAPI by example
 			app.router.add(nfw.HTTP_DELETE, '/{id}', self.delete)
 			app.router.add(nfw.HTTP_POST, '/', self.post)
 
-		def index(self req, resp):
+		def index(self, req, resp):
 			resp.headers['Content-Type'] = nfw.APPLICATION_JSON
 			resp.body = json.dumps(book_index())
 

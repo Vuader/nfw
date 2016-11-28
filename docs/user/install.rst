@@ -18,6 +18,14 @@ Neutrino depends on:
 
 .. include:: ../../requirements.txt
 
+Ubuntu Notes
+~~~~~~~~~~~~
+Before running pip install nfw you may be required to install some distribution packages required.
+
+.. code:: bash
+
+    $ apt-get install libffi-dev
+    $ apt-get install libmysqlclient-dev
 
 WSGI Server
 -----------

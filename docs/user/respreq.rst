@@ -48,7 +48,7 @@ The request object behaves like a IO file/object. You can use **.read()** and **
 
 Response Object
 ---------------
-The request object behaves like a IO file/object. You can use **.write()** write to the request body. By setting a string value to the **.body** it will override anything from **.write()** method.
+The response object behaves like a IO file/object. You can use **.write()** write to the response body. By setting a string value to the **.body** it will override anything from **.write()** method.
 
 **.headers** Dictionary like object that is used to set headers.
 

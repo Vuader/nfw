@@ -7,6 +7,11 @@ User Guide
    intro
    install
    quickstart
+   settings
+   views
+   middleware
+   error
+   logging
    respreq
    templating
    policy
