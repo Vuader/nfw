@@ -76,14 +76,15 @@ class Wsgi(object):
         debug = log_config.get('debug', False)
         self.logger = nfw.Logger(app_name, host, port, debug)
 
-        modules = app_config.get('modules', '').replace(' ','').split(',')
+        modules = app_config.getitems('modules')
+
         jinja = jinja2(loader=nfw.template.JinjaLoader(modules))
         jinja.globals['STATIC'] = app_config.get('static', '').rstrip('/')
         if jinja.globals['STATIC'] == '/':
             jinja.globals['STATIC'] = ''
         nfw.jinja = jinja
 
-        middleware = app_config.get('middleware', '').replace(' ','').split(',')
+        middleware = app_config.getitems('middleware')
         self.router = nfw.Router()
         self.modules = self._modules()
         self.views = self._objs(self.modules, nfw.Resource)
@@ -192,7 +193,7 @@ class Wsgi(object):
 
         mysql_config = self.config.get('mysql', None)
         if mysql_config is not None:
-            nfw.Mysql(**mysql_config)
+            nfw.Mysql(**mysql_config.data)
 
         resp = nfw.Response()
         req = nfw.Request(environ, self.config, session, self.router, self.logger)
@@ -282,7 +283,7 @@ class Wsgi(object):
     def _modules(self):
         app_config = self.config.get('application', {})
         loaded = {}
-        modules = app_config.get('modules', '').replace(' ','').split(',')
+        modules = app_config.getitems('modules')
         for module in modules:
             try:
                 m = nfw.utils.import_module(module)

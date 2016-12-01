@@ -45,6 +45,65 @@ log = logging.getLogger(__name__)
 
 nfw_config = None
 
+class Section(object):
+    def __init__(self):
+        self.data = {}
+
+    def __setitem__(self, key, value):
+        self.data[key] = value
+
+    def __getitem__(self, key):
+        if key in self.data:
+            return self.get(key)
+        else:
+            raise KeyError(key)
+
+    def __delitem__(self, key):
+        try:
+            del self.data[key]
+        except KeyError:
+            pass
+
+    def __contains__(self, key):
+        return key in self.data
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __len__(self):
+        return len(self.data)
+
+    def __repr__(self):
+        return repr(self.data)
+
+    def __str__(self):
+        return str(self.data)
+
+    def get(self, k, d=None):
+        try:
+           return self.data[k]
+        except KeyError:
+            return d
+
+    def getboolean(self, k=None, d=False):
+        if k in self.data:
+            if self.data[k] == 'True' or self.data[k] == 'true':
+                return True
+            else:
+                return False
+        else:
+            return d
+
+    def getitems(self, k=None):
+        if k in self.data:
+            conf = self.data[k].replace(' ','')
+            if conf == '':
+                return []
+            else:
+                return conf.split(',')
+        else:
+            return []
+
 
 class Config(object):
     configs = {}
@@ -61,7 +120,7 @@ class Config(object):
                     config.read(config_file)
                     sections = config.sections()
                     for s in sections:
-                        self.config[s] = {}
+                        self.config[s] = Section()
                         options = config.options(s)
                         for o in options:
                             self.config[s][o] = config.get(s, o)
@@ -79,6 +138,8 @@ class Config(object):
         else:
             return d
 
+
+
     def __getitem__(self, key):
         return self.config[key]
 
@@ -90,3 +151,5 @@ class Config(object):
 
     def __len__(self):
         return len(self.config)
+
+
