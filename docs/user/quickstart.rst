@@ -17,9 +17,9 @@ Create a folder named after your project and use neutrino.py to setup clean init
 
 The following structure will be created:
 
-**./settings.yaml** - Default Configuration file
+**./settings.cfg** - Default Configuration file
 
-**./myproject/** - Your Application - You can rename this or create multiples in the projects (just remember to update your settings.yaml modules)
+**./myproject/** - Your Application - You can rename this or create multiples in the projects (just remember to update your settings.cfg modules)
 
 **./myproject/__init__.py** - Loads your views and models.
 
@@ -33,7 +33,7 @@ The following structure will be created:
 
 **./templates/** Global templates. Simply creating a template in here for example templates/myproject/test.html will override the application template.
 
-**./static/** Your WSGI Webserver will serve these files. To populate or update them based on configured applications in settings.yaml run: neutrino.py -g .
+**./static/** Your WSGI Webserver will serve these files. To populate or update them based on configured applications in settings.cfg run: neutrino.py -g .
 
 **./tmp/** Temporary Folder for session data etc. To clear session data files that expired run neutrino.py -e . (Its recommended to run a cron a job hourly)
 
@@ -195,18 +195,20 @@ Edit views.py and place inside your ./myproject/:
             description = "Example Description using template render"
             resp.body = t.render(title=title, description=description)
 
-**Remember to add your middleware to the settings.yaml file**
+**Remember to add your middleware to the settings.cfg file**
 
-.. code:: yaml
+.. code::
 
-    application:
-        name: "Project Name"
-        modules: [ myproject ]
-        middleware: [ myproject.Menu ]
-        static: /static/
-        session_timeout: 7200
-        use_x_forwarded_host: false
-        use_x_forwarded_port: false
+    [application]
+    name = "Project Name"
+    # Modules Comma Seperated
+    modules = myproject
+    # Middleware Comma Seperated
+    middleware = myproject.Menu
+    static = /static/
+    session_timeout = 7200
+    use_x_forwarded_host = false
+    use_x_forwarded_port = false
 
 RestAPI by example
 ==================

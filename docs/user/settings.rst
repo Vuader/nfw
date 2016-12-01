@@ -1,35 +1,37 @@
 .. _settings:
 
-settings.yaml
-=============
+settings.cfg
+============
 
-The settings.yaml file is located within your project directory. The purpose of this file to specify specific properties for the projects environment and import middleware and modules.
+The settings.cfg file is located within your project directory. The purpose of this file to specify specific properties for the projects environment and import middleware and modules.
 
-.. code:: yaml
+**Example:**
 
-	application:
-		name: Blog
-		modules: [ pyblog, ipcalc ]
-		middleware: [ pyblog.Login, pyblog.Globals ]
-		static: /static
-		session_timeout: 7200
-		use_x_forwarded_host: false
-		use_x_forwarded_port: false
+.. code::
 
-	mysql:
-		database: blogdev
-		host: 127.0.0.1
-		username: blog
-		password: t0ps3cret
+    [application]
+    name = Blog
+    modules = pyblog, ipcalc
+    middleware = pyblog.Login, pyblog.Globals
+    static = /static
+    session_timeout = 7200
+    use_x_forwarded_host = false
+    use_x_forwarded_port = false
 
-	redis:
-		server: localhost
-		port: 6379
-		db: 0
+    [mysql]
+    database = blogdev
+    host = 127.0.0.1
+    username = blog
+    password = t0ps3cret
 
-	logging:
-		host: 127.0.0.1
-		port: 514
-		debug: true
+    [redis]
+    server = localhost
+    port = 6379
+    db = 0
+
+    [logging]
+    host = 127.0.0.1
+    port = 514
+    debug = true
 
 
