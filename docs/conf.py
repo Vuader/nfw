@@ -137,7 +137,7 @@ html_theme_options = {
     'github_repo': 'nfw',
     'github_button': False,
     'github_banner': True,
-    'fixed_sidebar': True,
+    'fixed_sidebar': False,
     'show_powered_by': False,
     'extra_nav_links': {
       'Neutrino Home': 'http://neutrino.fwiw.co.za/',
