@@ -39,8 +39,6 @@ import os
 import ConfigParser
 import logging
 
-import yaml
-
 import nfw
 
 log = logging.getLogger(__name__)
@@ -59,14 +57,21 @@ class Config(object):
         if config_file is not None:
             if os.path.isfile(config_file):
                 if config_file not in self.configs:
-                    config = file(config_file, 'r').read()
-                    self.config = yaml.load(config)
+                    config = ConfigParser.ConfigParser()
+                    config.read(config_file)
+                    sections = config.sections()
+                    for s in sections:
+                        self.config[s] = {}
+                        options = config.options(s)
+                        for o in options:
+                            self.config[s][o] = config.get(s, o)
                     self.configs[config_file] = self.config
                 else:
                     self.config = self.configs[config_file]
             else:
                 raise nfw.Error("Configuration file not found: %s"
                                 % (config_file,))
+
 
     def get(self, k=None, d=None):
         if k in self.config:

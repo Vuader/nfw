@@ -114,8 +114,8 @@ def static(args):
             else:
                 _copy_file(module, local, fullname, fullname)
 
-    if os.path.exists("%s/settings.yaml" % (path,)):
-        config = nfw.Config("%s/settings.yaml" % (path,))
+    if os.path.exists("%s/settings.cfg" % (path,)):
+        config = nfw.Config("%s/settings.cfg" % (path,))
         app_config = config.get('application', {})
         modules = app_config.get('modules', [])
         for module in modules:
@@ -127,7 +127,7 @@ def static(args):
 def setup(args):
     path = os.path.abspath(args.path)
     module = args.s
-    _copy_file(module, path, 'resources/settings.yaml', 'settings.yaml')
+    _copy_file(module, path, 'resources/settings.cfg', 'settings.cfg')
     _copy_file(module, path, 'resources/policy.json', 'policy.json')
     _create_dir(path, '/wsgi')
     _copy_resource(path, '/wsgi/app.wsgi')
@@ -151,7 +151,7 @@ def server(args):
     sys.path.append(app_root)
     site.addsitedir(app_root)
     config = (os.path.abspath(os.path.join(path,
-                              'settings.yaml')))
+                              'settings.cfg')))
     os.environ['NEUTRINO_CONFIG'] = str(config)
     nfw_wsgi = nfw.Wsgi()
 
@@ -165,7 +165,7 @@ def server(args):
 def create(args):
     path = args.path
     if os.path.exists(path):
-        _copy_resource(path, '/settings.yaml')
+        _copy_resource(path, '/settings.cfg')
         _create_dir(path, '/wsgi')
         _copy_resource(path, '/wsgi/app.wsgi')
         _create_dir(path, '/templates')
@@ -189,8 +189,8 @@ def create(args):
 def session(args):
     path = args.path
     c = 0
-    if os.path.exists("%s/settings.yaml" % (path,)):
-        config = nfw.Config("%s/settings.yaml" % (path,))
+    if os.path.exists("%s/settings.cfg" % (path,)):
+        config = nfw.Config("%s/settings.cfg" % (path,))
         app_config = config.get('application', {})
         session_expire = app_config.get('session_expire', 3600)
         r = re.compile('^.*session$')
@@ -211,7 +211,7 @@ def session(args):
         else:
             print("Missing tmp folder")
     else:
-        print("Missing settings.yaml or invalid path")
+        print("Missing settings.cfg or invalid path")
 
 
 def main():
@@ -232,7 +232,7 @@ def main():
     group.add_argument('-s', help='Re-Initilize/Setup Application')
     group.add_argument('-g',
                        help='Collect and Populate /static' +
-                            ' as per settings.yaml modules',
+                            ' as per settings.cfg modules',
                        dest='funcs',
                        const=static,
                        action='append_const')
