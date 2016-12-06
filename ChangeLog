@@ -1,4 +1,22 @@
-commit 701659c8cb6e8a031bb83e3520e1a32aa6463c4d (HEAD -> master)
+commit cad1c9d4b804179af5509ba249c3193c8a82555b (HEAD -> master)
+Author: root <root@supafly>
+Date:   Tue Dec 6 10:41:35 2016 +0200
+
+    Multiple updates - add restclient including fixes
+
+commit e8b9879ec9a1423dd324aeade0c29ca77fb81ed6 (origin/master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Thu Dec 1 09:16:57 2016 +0200
+
+    Fixed Documentation for small displays
+
+commit a358eafe6fb536a2ae0e3334517749a463c39373
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Thu Dec 1 08:45:30 2016 +0200
+
+    Updated Changelog + Versioning
+
+commit 701659c8cb6e8a031bb83e3520e1a32aa6463c4d
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Thu Dec 1 08:41:51 2016 +0200
 
@@ -8,7 +26,7 @@ Date:   Thu Dec 1 08:41:51 2016 +0200
     section.getitems(option) - returns list
     section.getboolean(option, default) - returns bool
 
-commit 7ffc7b1f99ef860e2c8cd316a603e8d238d6049b (origin/master)
+commit 7ffc7b1f99ef860e2c8cd316a603e8d238d6049b
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Thu Dec 1 08:06:58 2016 +0200
 
