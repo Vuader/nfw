@@ -52,14 +52,22 @@ class Menu(object):
 
     def add_submenu(self, name, menu):
         li = self.dom.create_element('li')
-        li.set_attribute('class','dropdown')
+        li.set_attribute('class','dropdown-submenu')
         a = li.create_element('a')
         a.set_attribute('href','#')
         a.set_attribute('class','dropdown-toggle')
         a.set_attribute('data-toggle','dropdown')
-        a.set_attribute('role','button')
-        a.set_attribute('aria-haspopup','true')
-        a.set_attribute('aria-expanded','false')
+        a.append(name)
+        ul = li.create_element('ul')
+        ul.set_attribute('class','dropdown-menu')
+        ul.append(menu)
+
+    def add_dropdown(self, name, menu):
+        li = self.dom.create_element('li')
+        a = li.create_element('a')
+        a.set_attribute('href','#')
+        a.set_attribute('class','dropdown-toggle')
+        a.set_attribute('data-toggle','dropdown')
         a.append(name)
         s = a.create_element('span')
         s.set_attribute('class','caret')
@@ -85,4 +93,8 @@ class Menu(object):
         a.append(name)
 
     def __str__(self):
-        return self.dom.get()
+        toreturn = self.dom.get()
+        if toreturn is not None:
+            return toreturn
+        else:
+            return ''

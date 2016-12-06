@@ -42,7 +42,7 @@ import redis as rd
 log = logging.getLogger(__name__)
 
 config = nfw.Config()
-redis_config = config.get('redis', {})
+redis_config = config.get('redis')
 host = redis_config.get('server', 'localhost')
 port = redis_config.get('port', 6379)
 db = redis_config.get('db', 0)

@@ -69,6 +69,8 @@ from . import model
 from .model import Model
 from .model import ModelDict
 from . import web
+from . import restclient
+from .restclient import RestClient
 from .web import bootstrap3
 from . import restapi
 

@@ -37,6 +37,7 @@ from __future__ import unicode_literals
 import os
 import logging
 import traceback
+import thread
 
 from pkg_resources import DefaultProvider, ResourceManager, \
                           get_provider
@@ -51,6 +52,35 @@ import nfw
 
 log = logging.getLogger(__name__)
 
+class Jinja(object):
+    def __init__(self):
+        self._threads = {}
+        self.config = nfw.Config()
+        self.app_config = self.config.get('application')
+        self.modules = self.app_config.getitems('modules')
+        self._globals = {}
+
+    def setup(self):
+        thread_id = thread.get_ident()
+        if thread_id not in self._threads:
+            self._threads[thread_id] = Environment(loader=nfw.template.JinjaLoader(self.modules))
+            self._threads[thread_id].globals.update(self._globals)
+            self._threads[thread_id].globals['STATIC'] = self.app_config.get('static', '').rstrip('/')
+            if self._threads[thread_id].globals['STATIC'] == '/':
+                 self._threads[thread_id].globals['STATIC'] = ''
+
+    def __getattr__(self, attr):
+        thread_id = thread.get_ident()
+        if thread_id in self._threads:
+            if hasattr(self._threads[thread_id], attr):
+                return getattr(self._threads[thread_id], attr)
+            else:
+                raise Exception("Jinja Environment has no attribute %s" % (attr,))
+        else:
+            if attr == 'globals':
+                return self._globals
+            else:
+                raise Exception("Jinja not loaded yet for thread")
 
 class JinjaLoader(BaseLoader):
     def __init__(self, packages):

@@ -4,3 +4,4 @@ passlib
 pycurl
 jinja2
 redis
+pycurl

@@ -46,8 +46,9 @@ log = logging.getLogger(__name__)
 
 
 class Request(object):
-    def __init__(self, environ, config, session, router, logger):
+    def __init__(self, environ, config, session, router, logger, app):
         super(Request, self).__setattr__('context', {})
+        super(Request, self).__setattr__('app_context', app.context)
         super(Request, self).__setattr__('config', config)
         super(Request, self).__setattr__('router', router)
         super(Request, self).__setattr__('logger', logger)

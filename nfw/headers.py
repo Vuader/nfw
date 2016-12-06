@@ -42,15 +42,20 @@ log = logging.getLogger(__name__)
 
 
 class Headers(object):
-    def __init__(self):
+    def __init__(self,request=True):
         self.data = {}
+        self.request = request
 
     def __setitem__(self, key, value):
         key = str(key).lower()
+        if self.request is True:
+            key = key.replace('-','_')
         self.data[key] = value
 
     def __getitem__(self, key):
         key = str(key).lower()
+        if self.request is True:
+            key = key.replace('-','_')
         if key in self.data:
             return self.get(key)
         else:
@@ -59,12 +64,16 @@ class Headers(object):
     def __delitem__(self, key):
         try:
             key = str(key).lower()
+            if self.request is True:
+                key = key.replace('-','_')
             del self.data[key]
         except KeyError:
             pass
 
     def __contains__(self, key):
         key = str(key).lower()
+        if self.request is True:
+            key = key.replace('-','_')
         return key in self.data
 
     def __iter__(self):
@@ -85,6 +94,8 @@ class Headers(object):
     def get(self, key, default=None):
         try:
             key = str(key).lower()
+            if self.request is True:
+                key = key.replace('-','_')
             if nfw.utils.is_byte_string(self.data[key]):
                 return self.data[key]
             else:

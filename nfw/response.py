@@ -48,7 +48,7 @@ class Response(object):
 
     def __init__(self):
         self.status = nfw.HTTP_200
-        super(Response, self).__setattr__('headers', nfw.Headers())
+        super(Response, self).__setattr__('headers', nfw.Headers(request=False))
         self.headers['Content-Type'] = nfw.TEXT_HTML
         super(Response, self).__setattr__('_io', StringIO())
         super(Response, self).__setattr__('content_length', 0)

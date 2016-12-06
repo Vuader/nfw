@@ -68,8 +68,9 @@ class Wsgi(object):
         else:
             raise nfw.Error("Configuration file not found in os.environment")
         self.config = nfw.Config()
-        app_config = self.config.get('application', {})
-        log_config = self.config.get('logging', {})
+        nfw.jinja = nfw.template.Jinja()
+        app_config = self.config.get('application')
+        log_config = self.config.get('logging')
         app_name = app_config.get('name','neutrino')
         host = log_config.get('host')
         port = log_config.get('port', 514)
@@ -78,13 +79,8 @@ class Wsgi(object):
 
         modules = app_config.getitems('modules')
 
-        jinja = jinja2(loader=nfw.template.JinjaLoader(modules))
-        jinja.globals['STATIC'] = app_config.get('static', '').rstrip('/')
-        if jinja.globals['STATIC'] == '/':
-            jinja.globals['STATIC'] = ''
-        nfw.jinja = jinja
-
         middleware = app_config.getitems('middleware')
+        self.context = {}
         self.router = nfw.Router()
         self.modules = self._modules()
         self.views = self._objs(self.modules, nfw.Resource)
@@ -160,7 +156,7 @@ class Wsgi(object):
                 resp.body = dom.get()
         elif resp.headers.get('Content-Type') == nfw.APPLICATION_JSON:
             j = {'error': {'title': title, 'description': description}}
-            resp.body = nfw.utils.json_encode(j)
+            resp.body = json.dumps(j)
 
         return resp
 
@@ -178,12 +174,12 @@ class Wsgi(object):
         # When the method is POST the variable will be sent
         # in the HTTP request body which is passed by the WSGI server
         # in the file like wsgi.input environment variable.
-        request_post = {}
-
-        app_config = self.config.get('application', {})
-        log_config = self.config.get('logging', {})
-        debug = log_config.get('debug', False)
+        app_config = self.config.get('application')
+        log_config = self.config.get('logging')
+        debug = log_config.getboolean('debug')
         session_expire = app_config.get('session_expire', 3600)
+
+        nfw.jinja.setup()
 
         if 'redis' in self.config:
             session = nfw.SessionRedis(session_expire)
@@ -191,12 +187,12 @@ class Wsgi(object):
             session = nfw.SessionFile(session_expire, 'tmp/')
         session_cookie = session.setup(environ)
 
-        mysql_config = self.config.get('mysql', None)
-        if mysql_config is not None:
+        mysql_config = self.config.get('mysql')
+        if mysql_config.get('database') is not None:
             nfw.Mysql(**mysql_config.data)
 
         resp = nfw.Response()
-        req = nfw.Request(environ, self.config, session, self.router, self.logger)
+        req = nfw.Request(environ, self.config, session, self.router, self.logger, self)
 
         resp.headers['Set-Cookie'] = session_cookie
 
@@ -281,7 +277,7 @@ class Wsgi(object):
             return resp
 
     def _modules(self):
-        app_config = self.config.get('application', {})
+        app_config = self.config.get('application')
         loaded = {}
         modules = app_config.getitems('modules')
         for module in modules:

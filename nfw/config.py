@@ -132,13 +132,11 @@ class Config(object):
                                 % (config_file,))
 
 
-    def get(self, k=None, d=None):
+    def get(self, k=None):
         if k in self.config:
             return self.config[k]
         else:
-            return d
-
-
+            return Section()
 
     def __getitem__(self, key):
         return self.config[key]
