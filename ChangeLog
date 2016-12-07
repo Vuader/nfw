@@ -1,10 +1,22 @@
-commit 8d887a1cc24d026a9f19d7d6e11454b3b35aa218 (HEAD -> master)
+commit e0ab1901068e37e9ce53a329d22cc70828ce1f78 (HEAD, master)
+Author: Dave <davekruger@gmail.com>
+Date:   Wed Dec 7 10:45:42 2016 +0200
+
+    removed empty dict second argument when getting application config
+
+commit 72bd2d1adb3f24a18ee3d0328d32efab21a029c7 (upstream/master)
+Author: Christiaan Rademan <christiaan.rademan@gmail.com>
+Date:   Tue Dec 6 11:24:00 2016 +0200
+
+    Updated Changelog + Versioning
+
+commit 8d887a1cc24d026a9f19d7d6e11454b3b35aa218
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Tue Dec 6 11:23:15 2016 +0200
 
     Restclient did not stage correctly. Added *bug*
 
-commit 375e6eb16fb51ea70e372290c1332bec9d995396 (origin/master)
+commit 375e6eb16fb51ea70e372290c1332bec9d995396 (origin/master, origin/HEAD)
 Author: root <root@supafly>
 Date:   Tue Dec 6 10:43:38 2016 +0200
 
@@ -134,7 +146,7 @@ Date:   Wed Nov 16 09:08:44 2016 +0200
 
     Fixed App Error Response and Documentation
 
-commit fde82d0e39c8a1c6b44a89f83fbea425d0c11936 (tag: 0.0.0)
+commit fde82d0e39c8a1c6b44a89f83fbea425d0c11936
 Author: Christiaan Rademan <christiaan.rademan@gmail.com>
 Date:   Tue Nov 15 17:36:31 2016 +0200
 
