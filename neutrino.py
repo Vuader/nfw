@@ -116,7 +116,7 @@ def static(args):
 
     if os.path.exists("%s/settings.cfg" % (path,)):
         config = nfw.Config("%s/settings.cfg" % (path,))
-        app_config = config.get('application', {})
+        app_config = config.get('application')
         modules = app_config.getitems('modules')
         for module in modules:
             if resource_exists(module, "static"):
