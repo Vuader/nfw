@@ -273,6 +273,6 @@ class Post(object):
 
     def get(self, k, d=None):
         if k in self._cgi:
-            return self._cgi[k].value
+            return ",".join(self._cgi.getlist(k))
         else:
             return d
